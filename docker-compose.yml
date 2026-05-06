@@ -1,0 +1,58 @@
+# ==============================================================================
+# OpenCode + SearXNG Docker Compose Environment
+# ==============================================================================
+# For usage see setup.sh
+# ==============================================================================
+
+services:
+  # ==============================================================================
+  # OpenCode Environment (using official smanx/opencode image)
+  # ==============================================================================
+  opencode-env:
+    image: smanx/opencode:latest
+    # container_name: opencode-env
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+    ports:
+      - "4096:4096"  # Expose OpenCode locally only (localhost access)
+    volumes:
+      # 1. Configuration (Settings, AGENTS.md, opencode.json)
+      - ./opencode:/root/.config/opencode:rw
+      # 2. Data / Database (Auth tokens, session databases, logs)
+      - ./.sessions/opencode-data:/root/.local/share/opencode:rw
+      # 3. State (Chat history, UI state, favorites)
+      - ./.sessions/opencode-state:/root/.local/state/opencode:rw
+      # 4. Workspace folder
+      - ./workspace:/workspace:rw
+    depends_on:
+      - searxng
+    networks:
+      - ai-net
+
+  # ==============================================================================
+  # SearXNG Search Engine
+  # ==============================================================================
+  searxng:
+    image: docker.io/searxng/searxng:latest
+    container_name: searxng
+    ports:
+      - "8080:8080"  # Host access (optional)
+    volumes:
+      # Use local searxng directory for config (read-write for initialization)
+      - ./searxng:/etc/searxng:rw
+    environment:
+      # SearXNG internal settings
+      - SEARXNG_BASE_URL=http://0.0.0.0:8080
+      - SEARXNG_INSTANCE_NAME=main
+    networks:
+      - ai-net
+    restart: unless-stopped
+
+# ==============================================================================
+# Network configuration
+# ==============================================================================
+networks:
+  ai-net:
+    driver: bridge
+    name: ai-net

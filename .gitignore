@@ -1,0 +1,19 @@
+# Project
+*.env
+opencode/opencode.json
+
+# IDE settings (optional):
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files:
+.DS_Store
+Thumbs.db
+
+# Logs:
+*.log
+# OpenCode
+*.sessions

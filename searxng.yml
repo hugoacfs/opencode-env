@@ -1,0 +1,570 @@
+# ==============================================================================
+# SearXNG Configuration - Lean Version
+# ==============================================================================
+# For full documentation: https://docs.searxng.org/
+# This is a flat, minimal configuration - edit to customize
+
+general:
+  instance_name: "Opencode Search"
+  base_url: http://0.0.0.0:8080
+  public_url: http://0.0.0.0:8080
+  default_search_engine: google
+
+ui:
+  title: "Opencode Search"
+  default_category: general
+  show_suggestions: true
+  categories:
+    - name: General
+      url: general
+    - name: Images
+      url: images
+    - name: Videos
+      url: videos
+    - name: News
+      url: news
+    - name: Social Media
+      url: social
+    - name: Maps
+      url: maps
+    - name: Code
+      url: code
+    - name: Libraries
+      url: libraries
+    - name: It
+      url: it
+
+search:
+  default_category: general
+  max_page: 50
+  results_per_page: 10
+  safe_mode: false
+  engines:
+    # General Search
+    - name: Google
+      engine: google
+      shortcut: g
+      disabled: false
+      categories:
+        - general
+        - images
+        - videos
+        - news
+        - maps
+        - libraries
+        - it
+    
+    - name: Bing
+      engine: bing
+      shortcut: b
+      disabled: false
+      categories:
+        - general
+        - images
+        - videos
+        - news
+        - maps
+        - libraries
+        - it
+    
+    - name: DuckDuckGo
+      engine: duckduckgo
+      shortcut: ddg
+      disabled: false
+      categories:
+        - general
+        - images
+        - videos
+        - news
+    
+    - name: Startpage
+      engine: startpage
+      shortcut: sp
+      disabled: false
+      categories:
+        - general
+        - images
+        - videos
+        - news
+    
+    - name: Qwant
+      engine: qwant
+      shortcut: qw
+      disabled: false
+      categories:
+        - general
+        - images
+        - videos
+        - news
+    
+    - name: Ecosia
+      engine: ecosia
+      shortcut: eco
+      disabled: false
+      categories:
+        - general
+        - images
+        - videos
+        - news
+    
+    - name: Yahoo
+      engine: yahoo
+      shortcut: y
+      disabled: false
+      categories:
+        - general
+        - images
+        - videos
+        - news
+    
+    - name: Yandex
+      engine: yandex
+      shortcut: ya
+      disabled: false
+      categories:
+        - general
+        - images
+        - videos
+        - news
+    
+    - name: Baidu
+      engine: baidu
+      shortcut: bd
+      disabled: false
+      categories:
+        - general
+        - images
+        - videos
+        - news
+    
+    - name: Naver
+      engine: naver
+      shortcut: nv
+      disabled: false
+      categories:
+        - general
+        - images
+        - videos
+        - news
+    
+    - name: Sogou
+      engine: sogou
+      shortcut: sg
+      disabled: false
+      categories:
+        - general
+        - images
+        - videos
+        - news
+    
+    # Images
+    - name: Google Images
+      engine: google_images
+      shortcut: gi
+      disabled: false
+      categories:
+        - images
+    
+    - name: Bing Images
+      engine: bing_images
+      shortcut: bi
+      disabled: false
+      categories:
+        - images
+    
+    - name: DuckDuckGo Images
+      engine: duckduckgo_images
+      shortcut: ddi
+      disabled: false
+      categories:
+        - images
+    
+    - name: Pinterest
+      engine: pinterest
+      shortcut: pi
+      disabled: false
+      categories:
+        - images
+    
+    - name: Unsplash
+      engine: unsplash
+      shortcut: us
+      disabled: false
+      categories:
+        - images
+    
+    - name: Pexels
+      engine: pexels
+      shortcut: px
+      disabled: false
+      categories:
+        - images
+    
+    - name: Pixabay
+      engine: pixabay
+      shortcut: pb
+      disabled: false
+      categories:
+        - images
+    
+    - name: Flickr
+      engine: flickr
+      shortcut: fl
+      disabled: false
+      categories:
+        - images
+    
+    - name: Imgur
+      engine: imgur
+      shortcut: ig
+      disabled: false
+      categories:
+        - images
+    
+    # Videos
+    - name: YouTube
+      engine: youtube
+      shortcut: yt
+      disabled: false
+      categories:
+        - videos
+    
+    - name: Vimeo
+      engine: vimeo
+      shortcut: vi
+      disabled: false
+      categories:
+        - videos
+    
+    - name: Dailymotion
+      engine: dailymotion
+      shortcut: dm
+      disabled: false
+      categories:
+        - videos
+    
+    - name: TikTok
+      engine: tiktok
+      shortcut: tk
+      disabled: false
+      categories:
+        - videos
+    
+    - name: Twitch
+      engine: twitch
+      shortcut: tw
+      disabled: false
+      categories:
+        - videos
+    
+    - name: Instagram
+      engine: instagram
+      shortcut: ig
+      disabled: false
+      categories:
+        - images
+    
+    # News
+    - name: Google News
+      engine: google_news
+      shortcut: gn
+      disabled: false
+      categories:
+        - news
+    
+    - name: Bing News
+      engine: bing_news
+      shortcut: bn
+      disabled: false
+      categories:
+        - news
+    
+    - name: DuckDuckGo News
+      engine: duckduckgo_news
+      shortcut: ddn
+      disabled: false
+      categories:
+        - news
+    
+    - name: Yahoo News
+      engine: yahoo_news
+      shortcut: yn
+      disabled: false
+      categories:
+        - news
+    
+    - name: Reddit
+      engine: reddit
+      shortcut: re
+      disabled: false
+      categories:
+        - social
+    
+    - name: Hacker News
+      engine: hackernews
+      shortcut: hn
+      disabled: false
+      categories:
+        - general
+    
+    - name: Product Hunt
+      engine: producthunt
+      shortcut: ph
+      disabled: false
+      categories:
+        - general
+    
+    - name: Twitter
+      engine: twitter
+      shortcut: tw
+      disabled: false
+      categories:
+        - social
+    
+    - name: Mastodon
+      engine: mastodon
+      shortcut: ms
+      disabled: false
+      categories:
+        - social
+    
+    # Maps
+    - name: Google Maps
+      engine: google_maps
+      shortcut: gm
+      disabled: false
+      categories:
+        - maps
+    
+    - name: Bing Maps
+      engine: bing_maps
+      shortcut: bm
+      disabled: false
+      categories:
+        - maps
+    
+    - name: OpenStreetMap
+      engine: opentopomap
+      shortcut: otm
+      disabled: false
+      categories:
+        - maps
+    
+    # Code
+    - name: GitHub
+      engine: github
+      shortcut: gh
+      disabled: false
+      categories:
+        - code
+    
+    - name: GitLab
+      engine: gitlab
+      shortcut: gl
+      disabled: false
+      categories:
+        - code
+    
+    - name: Bitbucket
+      engine: bitbucket
+      shortcut: bb
+      disabled: false
+      categories:
+        - code
+    
+    - name: Stack Overflow
+      engine: stackoverflow
+      shortcut: so
+      disabled: false
+      categories:
+        - code
+    
+    - name: Apache
+      engine: apache
+      shortcut: ap
+      disabled: false
+      categories:
+        - code
+    
+    - name: Linux
+      engine: linux
+      shortcut: lx
+      disabled: false
+      categories:
+        - code
+    
+    - name: Ubuntu
+      engine: ubuntu
+      shortcut: ub
+      disabled: false
+      categories:
+        - code
+    
+    - name: Debian
+      engine: debian
+      shortcut: de
+      disabled: false
+      categories:
+        - code
+    
+    - name: CentOS
+      engine: centos
+      shortcut: ce
+      disabled: false
+      categories:
+        - code
+    
+    - name: Fedora
+      engine: fedora
+      shortcut: fe
+      disabled: false
+      categories:
+        - code
+    
+    - name: Arch Linux
+      engine: archlinux
+      shortcut: al
+      disabled: false
+      categories:
+        - code
+    
+    - name: macOS
+      engine: macos
+      shortcut: mx
+      disabled: false
+      categories:
+        - code
+    
+    - name: Android
+      engine: android
+      shortcut: ad
+      disabled: false
+      categories:
+        - code
+    
+    - name: Windows
+      engine: windows
+      shortcut: wn
+      disabled: false
+      categories:
+        - code
+    
+    # Libraries
+    - name: npm
+      engine: npm
+      shortcut: npm
+      disabled: false
+      categories:
+        - libraries
+    
+    - name: PyPI
+      engine: pypi
+      shortcut: pypi
+      disabled: false
+      categories:
+        - libraries
+    
+    - name: crates.io
+      engine: crates
+      shortcut: cr
+      disabled: false
+      categories:
+        - libraries
+    
+    - name: Maven
+      engine: maven
+      shortcut: mvn
+      disabled: false
+      categories:
+        - libraries
+    
+    - name: NuGet
+      engine: nuget
+      shortcut: nu
+      disabled: false
+      categories:
+        - libraries
+    
+    # IT
+    - name: GitHub Issues
+      engine: github_issues
+      shortcut: ghi
+      disabled: false
+      categories:
+        - it
+    
+    - name: Stack Overflow Questions
+      engine: stackoverflow_questions
+      shortcut: soq
+      disabled: false
+      categories:
+        - it
+    
+    - name: Stack Overflow Answers
+      engine: stackoverflow_answers
+      shortcut: soa
+      disabled: false
+      categories:
+        - it
+    
+    - name: Stack Overflow Code
+      engine: stackoverflow_code
+      shortcut: soc
+      disabled: false
+      categories:
+        - it
+    
+    - name: Stack Overflow Server
+      engine: stackoverflow_server
+      shortcut: sos
+      disabled: false
+      categories:
+        - it
+    
+    - name: Server Fault
+      engine: serverfault
+      shortcut: sf
+      disabled: false
+      categories:
+        - it
+    
+    - name: Super User
+      engine: supersuser
+      shortcut: su
+      disabled: false
+      categories:
+        - it
+    
+    - name: Ask Ubuntu
+      engine: askubuntu
+      shortcut: au
+      disabled: false
+      categories:
+        - it
+    
+    - name: Unix & Linux
+      engine: unixlinux
+      shortcut: ul
+      disabled: false
+      categories:
+        - it
+
+privacy:
+  external_images_enabled: false
+  javascript_disabled: false
+
+browser:
+  supported_browsers:
+    - chrome
+    - firefox
+    - safari
+    - edge
+    - opera
+    - brave
+    - vivaldi
+    - yandex
+    - maxim
+    - duckduckgo
+    - startpage
+    - qwant
+    - ecosia
