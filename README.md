@@ -1,8 +1,8 @@
 # OpenCode + SearXNG Environment
 
-> A Dockerized, git-managed environment for OpenCode with integrated SearXNG search engine.
+> A Dockerized, git-managed environment for OpenCode with integrated SearXNG search engine. This is just for my personal use, I don't expect anyone to use it.
 
-This setup provides a reproducible environment for using OpenCode (CLI/TUI AI assistant) with a self-hosted SearXNG search engine.
+This setup provides a reproducible environment for using OpenCode (CLI/TUI AI assistant) with a self-hosted SearXNG search engine. **Configuration is stored directly in JSON files** rather than environment variables.
 
 ## 📦 Quick Start
 
@@ -18,20 +18,24 @@ git clone <your-repo-url>
 cd opencode-env
 ```
 
-### 2. Configure Environment Variables
+### 2. Configure OpenCode
 
+**For local deployment (your actual setup):**
+1. Copy the template with your WSL IP and model path:
 ```bash
-cp .env-dist .env
-nano .env  # Add your API keys
+cp opencode/opencode-dist.json opencode/opencode.json
 ```
+2. Edit `opencode/opencode.json` with your:
+   - WSL IP address and port
+   - API key (if needed)
+   - Model path
+   - Model filename
 
-**Important:** Add your API keys to `.env`:
-- `OPENAI_API_KEY` - Required for LLM calls
-- `ANTHROPIC_API_KEY` - Optional
-- `DEEPSEEK_API_KEY` - Optional
-- `GROQ_API_KEY` - Optional
-- `GOOGLE_API_KEY` - Optional
-- `HF_API_TOKEN` - Optional
+**For sharing/clean template:**
+```bash
+cp opencode/opencode-dist.json opencode/opencode.json
+# Edit with your values
+```
 
 ### 3. Start Services
 
@@ -47,24 +51,19 @@ docker compose up -d
 ## 📁 Directory Structure
 
 ```
-opencode-env/
-├── .env                    # Your environment variables (DO NOT COMMIT)
-├── .env-dist               # Template with placeholder values
-├── .gitignore              # Git ignore rules
-├── README.md               # This file
-├── config.json             # OpenCode config schema
-├── docker-compose.yml      # Docker Compose configuration
-├── opencode/               # OpenCode configuration folder
-│   ├── .gitignore
-│   ├── opencode.json       # LLM provider configuration (WSL/Host)
-│   └── package.json
-├── searxng/                # SearXNG configuration
-│   ├── settings.yml        # Main SearXNG config (read-only)
-│   ├── settings-original.yml # Original template
-│   └── default.yml         # Alternative SearXNG config template
-├── searxng.yml             # Alternative SearXNG config (read-only)
-├── setup.sh                # Helper script for setup/teardown
-└── workspace/              # Your working directory (bind mount)
+opencode-docker/
+├── opencode/
+│   ├── opencode.json        # Active config (contains your WSL IP/model)
+│   └── opencode-dist.json   # Clean template (safe to commit/share)
+├── searxng/
+│   └── settings.yml         # SearXNG configuration
+├── searxng.yml              # Alternative SearXNG config
+├── docker-compose.yml       # Docker Compose configuration
+├── setup.sh                 # Helper script for setup/teardown
+├── .gitignore               # Git ignore rules
+├── LICENSE                  # License file
+├── README.md                # This file
+└── workspace/               # Your working directory (bind mount)
 ```
 
 ## 🔧 Configuration
@@ -73,29 +72,9 @@ opencode-env/
 
 Located at `opencode/opencode.json`, this configures:
 
-- **LLM Providers** (WSL/Host setup for local models)
+- **LLM Providers** (Host setup for local models)
 - **Default Model**: Configured in `model` field
 - **SearXNG Integration**: MCP server for searching within OpenCode
-
-**Key Settings**:
-- `provider.wsl.baseURL` - WSL endpoint (can be overridden via env)
-- `provider.host.baseURL` - Localhost endpoint
-- `mcp.searxng.enabled` - Enable SearXNG search tool
-- `mcp.searxng.environment` - SearXNG connection URLs
-
-**⚠️ Current State**: The active `opencode.json` contains your actual WSL IP address and model path. Use `opencode-dist.json` as a clean template when sharing or deploying.
-
-**To use a clean config**:
-```bash
-cp opencode/opencode-dist.json opencode/opencode.json
-# Then edit with your actual values
-```
-
-**Personal Information to Protect**:
-- `provider.wsl.baseURL` - Your WSL IP address (e.g., `192.168.x.x:11434`)  
-- `provider.wsl.apiKey` - Your API key placeholder
-- `model` - Your local model file path
-- `provider.wsl.models` - Your actual local model filename
 
 ### SearXNG Configuration (`searxng/settings.yml`)
 
@@ -127,26 +106,6 @@ Configures two main services:
 - `./.sessions/opencode-state:/root/.local/state/opencode:rw` - State files
 - `./workspace:/workspace:rw` - Your working directory
 
-### Environment Variables Reference
-
-See `.env-dist` for all available variables:
-
-#### OpenCode Variables
-- `OPENCODE_MODELS_PATH` - Path to custom models.json
-- `OPENCODE_MODELS_URL` - URL for models.json
-- `OPENCODE_DISABLE_MODELS_FETCH` - Prevent auto-fetch from models.dev
-- `OPENCODE_SEARCH_URL` - URL for OpenCode's search provider
-
-#### SearXNG Variables
-- `SEARXNG_INSTANCE_NAME` - Display name
-- `SEARXNG_BASE_URL` - Internal URL (default: http://0.0.0.0:8080)
-- `SEARXNG_PUBLIC_URL` - Public URL
-- `SEARXNG_DEFAULT_CATEGORY` - Default search type
-- `SEARXNG_MAX_PAGE` - Maximum pagination
-- `SEARXNG_RESULTS_PER_PAGE` - Results per page
-- `SEARXNG_EXTERNAL_IMAGES_ENABLED` - Enable external images
-- `SEARXNG_JAVASCRIPT_DISABLED` - Disable JavaScript
-
 ## 🛠️ Helper Script
 
 The `setup.sh` script provides common operations:
@@ -164,18 +123,7 @@ The `setup.sh` script provides common operations:
 
 ### Using SearXNG as OpenCode Search Provider
 
-1. **Configure OpenCode** to use SearXNG:
-
-```bash
-export OPENCODE_SEARCH_URL=http://localhost:8080
-```
-
-Or add to `.env`:
-```env
-OPENCODE_SEARCH_URL=http://localhost:8080
-```
-
-2. **In OpenCode TUI**, use `/search` command to query SearXNG
+1. **In OpenCode TUI**, ask your LLM to query SearXNG, it should be available as an MCP tool.
 
 ### Direct SearXNG Access
 
@@ -185,67 +133,7 @@ OPENCODE_SEARCH_URL=http://localhost:8080
 
 ### OpenCode TUI
 
-```bash
-docker compose exec opencode-env opencode
-```
-
-Or use the web interface at http://localhost:4096
-
-## 🔒 Security & Privacy
-
-### Important Notes
-
-1. **Never commit `.env`** - Contains your API keys and secrets
-2. **Use `.gitignore`** - Already configured to exclude secrets
-3. **WSL IP is hardcoded** - The active `opencode.json` contains your actual WSL IP and model path. Use `opencode-dist.json` as a clean template.
-4. **API keys** - Add to `.env`, never share
-5. **Model paths** - Your local model filenames are exposed in the config
-6. **Internal IPs** - WSL IP addresses (192.168.x.x) reveal your network topology
-
-### Privacy Settings
-
-- External images are disabled by default (`SEARXNG_EXTERNAL_IMAGES_ENABLED=false`)
-- JavaScript is enabled but can be disabled
-- All search engines are privacy-respecting (DuckDuckGo, Startpage, etc.)
-
-## 🐛 Troubleshooting
-
-### Can't connect to SearXNG from OpenCode?
-
-```bash
-# Check both services are running
-docker compose ps
-
-# Check logs
-docker compose logs searxng
-docker compose logs opencode-env
-
-# Verify network connectivity
-docker compose exec opencode-env ping searxng
-```
-
-### OpenCode won't start?
-
-```bash
-# Check OpenCode logs
-docker compose logs opencode-env
-
-# Restart OpenCode
-docker compose restart opencode-env
-
-# Reinstall Node/NPM if missing
-./setup.sh
-```
-
-### SearXNG not accessible externally?
-
-1. Check port mapping: `docker compose port searxng`
-2. Verify firewall: `sudo ufw allow 8080`
-3. Or remove port mapping from `docker-compose.yml`
-
-### OpenCode can't fetch models?
-
-Set `OPENCODE_DISABLE_MODELS_FETCH=1` in `.env` (already set by default)
+The web interface can be found at http://localhost:4096
 
 ## 📝 Customizing
 
@@ -254,7 +142,7 @@ Set `OPENCODE_DISABLE_MODELS_FETCH=1` in `.env` (already set by default)
 1. Edit `searxng/settings.yml`
 2. Find the `engines` section
 3. Add or modify engine entries
-4. Restart: `docker compose restart searxng`
+4. Restart or rebuild using: `./setup.sh`
 
 ### Adding LLM Providers
 
@@ -262,33 +150,14 @@ Set `OPENCODE_DISABLE_MODELS_FETCH=1` in `.env` (already set by default)
 2. Add new provider entries under `provider`
 3. Restart OpenCode container
 
-### Changing WSL Endpoint
+## .gitignore Rules
 
-Instead of hardcoding in `opencode/opencode.json`, use environment variables:
+The `.gitignore` file excludes:
 
-```env
-# Add to .env
-OPENCODE_WSL_BASE_URL=http://<wsip>:11434/v1
-OPENCODE_WSL_API_KEY=<your-api-key>
-```
-
-Then modify `opencode/opencode.json` to read from env:
-
-```json
-{
-  "provider": {
-    "wsl": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "WSL",
-      "options": {
-        "baseURL": "${OPENCODE_WSL_BASE_URL}",
-        "apiKey": "${OPENCODE_WSL_API_KEY}"
-      },
-      ...
-    }
-  }
-}
-```
+- **Secrets**: `*.env`, `opencode/opencode.json` (active config)
+- **Autogenerated**: `opencode/node_modules`, `opencode/package-lock.json`
+- **Logs**: `*.log`, `*.sessions`
+- **IDE**: `.idea/`, `.vscode/` (optional)
 
 ## 📜 License
 
