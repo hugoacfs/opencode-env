@@ -9,13 +9,13 @@ services:
   # OpenCode Environment (using official smanx/opencode image)
   # ==============================================================================
   opencode-env:
-    image: smanx/opencode:latest
+    image: smanx/opencode:1.14.39
     # container_name: opencode-env
     working_dir: /workspace
     stdin_open: true
     tty: true
     ports:
-      - "4096:4096"  # Expose OpenCode locally only (localhost access)
+      - "127.0.0.1:4096:4096"  # Bind to localhost only
     volumes:
       # 1. Configuration (Settings, AGENTS.md, opencode.json)
       - ./opencode:/root/.config/opencode:rw
@@ -34,10 +34,10 @@ services:
   # SearXNG Search Engine
   # ==============================================================================
   searxng:
-    image: docker.io/searxng/searxng:latest
+    image: searxng/searxng:2026.5.6-a9909c497
     container_name: searxng
     ports:
-      - "8080:8080"  # Host access (optional)
+      - "127.0.0.1:8080:8080"  # Bind to localhost only
     volumes:
       # Use local searxng directory for config (read-write for initialization)
       - ./searxng:/etc/searxng:rw
