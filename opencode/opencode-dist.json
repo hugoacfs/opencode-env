@@ -35,6 +35,11 @@
       "type": "remote",
       "url": "http://icloud-mcp:8000/mcp",
       "enabled": true
+    },
+    "trading212": {
+      "type": "remote",
+      "url": "http://trading212-mcp:3012/mcp",
+      "enabled": true
     }
   },
   "shell": "/bin/sh"
