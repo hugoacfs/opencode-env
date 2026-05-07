@@ -65,6 +65,20 @@ services:
     networks:
       - ai-net
 
+  trading212-mcp:
+    build: ./trading212-mcp
+    container_name: trading212-mcp
+    command: ["node", "dist/index.js", "--http"]
+    ports:
+      - "127.0.0.1:8082:3012"
+    env_file:
+      - .env
+    environment:
+      - TRADING212_TRANSPORT=http
+    restart: unless-stopped
+    networks:
+      - ai-net
+
 # ==============================================================================
 # Network configuration
 # ==============================================================================
