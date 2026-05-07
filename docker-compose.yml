@@ -10,12 +10,14 @@ services:
   # ==============================================================================
   opencode-env:
     image: smanx/opencode:1.14.39
+    env_file:
+      - .env
     # container_name: opencode-env
     working_dir: /workspace
     stdin_open: true
     tty: true
     ports:
-      - "127.0.0.1:4096:4096"  # Bind to localhost only
+      - "4096:4096"  # Expose OpenCode locally only (localhost access)
     volumes:
       # 1. Configuration (Settings, AGENTS.md, opencode.json)
       - ./opencode:/root/.config/opencode:rw
@@ -48,6 +50,20 @@ services:
     networks:
       - ai-net
     restart: unless-stopped
+
+  # ==============================================================================
+  # iCloud Calendar MCP Server (Remote HTTP/SSE)
+  # ==============================================================================
+  icloud-mcp:
+    build: ./icloud-mcp
+    container_name: icloud-mcp
+    ports:
+      - "127.0.0.1:8081:8000"
+    env_file:
+      - .env
+    restart: unless-stopped
+    networks:
+      - ai-net
 
 # ==============================================================================
 # Network configuration

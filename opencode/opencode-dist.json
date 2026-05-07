@@ -25,11 +25,16 @@
         "-y",
         "@kevinwatt/mcp-server-searxng"
       ],
-      "environment": {
-        "SEARXNG_MCP_SEARXNG_URL": "http://searxng:8080",
-        "SEARXNG_URL": "http://searxng:8080",
-        "SEARXNG_BASE_URL": "http://searxng:8080"
+    "environment": {
+        "SEARXNG_INSTANCES": "http://searxng:8080",
+        "SEARXNG_USER_AGENT": "MCP-SearXNG/1.0",
+        "NODE_TLS_REJECT_UNAUTHORIZED": "1"
       }
+    },
+    "icloud-calendar": {
+      "type": "remote",
+      "url": "http://icloud-mcp:8000/mcp",
+      "enabled": true
     }
   },
   "shell": "/bin/sh"
